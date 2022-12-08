@@ -8,18 +8,8 @@ const { setModuleImports, getAssemblyExports, getConfig } = await dotnet
     .withApplicationArgumentsFromQuery()
     .create();
 
-setModuleImports('main.js', {
-    window: {
-        location: {
-            href: () => globalThis.window.location.href
-        }
-    }
-});
-
 const config = getConfig();
 const exports = await getAssemblyExports(config.mainAssemblyName);
-const text = exports.MyClass.Greeting();
-console.log(text);
 
 await dotnet.run();
 
