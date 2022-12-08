@@ -1,0 +1,49 @@
+using Microsoft.Azure.DigitalTwins.Parser;
+using System;
+using System.Linq;
+using System.Runtime.InteropServices.JavaScript;
+
+Console.WriteLine("Hello, Browser!");
+
+public partial class MyClass
+{
+    [JSExport]
+    internal static string Greeting()
+    {
+        var text = $"Hello, World! Greetings from {GetHRef()}";
+        Console.WriteLine(text);
+        return text;
+    }
+
+    [JSExport]
+    internal static string ParseDTDL(string dtdl)
+    {
+        string res = string.Empty;
+        ModelParser parser = new();
+        try
+        {
+            var parseResult = parser.ParseAsync(new string[] { dtdl }).Result;
+            res =  $"DTDL Valid. Parsed {parseResult.Count} elements";
+        }
+        catch (ResolutionException ex)
+        {
+            res = $"DTDL model is incompete: {ex}";
+        }
+        catch (ParsingException ex)
+        {
+            res = "DTDL model is invalid: \n";
+            foreach (ParsingError err in ex.Errors)
+            {
+                res += err + "\n";
+            }
+        }
+        catch (Exception ex)
+        {
+            res = $"DTDL model is invalid: {ex.Message}\n";
+        }
+        return res;
+    }
+
+    [JSImport("window.location.href", "main.js")]
+    internal static partial string GetHRef();
+}
