@@ -38,10 +38,10 @@ const isValidJson = s => {
 
 const out = document.getElementById('out')
 const el = document.getElementById('dtdl-text')
-el.onkeyup = () => {
+el.onkeyup = async () => {
     if (isValidJson(el.value)) {
         //out.innerText = el.value.length
-        const res = exports.MyClass.ParseDTDL(el.value)
+        const res = await exports.MyClass.ParseDTDL(el.value)
         out.innerText = res
     } else {
         out.innerText = lastJsonErr
