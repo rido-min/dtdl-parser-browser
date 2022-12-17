@@ -25,5 +25,16 @@ jobs:
     - name: Build
       run: dotnet publish -c Release
         
+    - name: Setup Pages
+      uses: actions/configure-pages@v2
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: 'dtdl-parser-browser/bin/Release/net7.0/browser-wasm/AppBundle/'
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v1
 
     
