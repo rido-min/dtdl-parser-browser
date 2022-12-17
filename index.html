@@ -12,22 +12,39 @@
 </head>
 
 <body>
-<h1>DTDL parser in the browser</h1>
-<textarea id="dtdl-text" cols="50" rows="15">
- {
-    "@context": "dtmi:dtdl:context;2",
+<h1>DTDL .NET parser in the browser</h1>
+<textarea id="dtdl-text" cols="80" rows="30" spellcheck="false">
+{
+    "@context": "dtmi:dtdl:context;3",
     "@id": "dtmi:com:example;1",
     "@type": "Interface",
+    "extends" : "dtmi:atmark_techno:Armadillo:IoT_GW_Base;1",
     "contents": [
         {
             "@type": "Property",
-            "name": "myName",
+            "name": "serialNumber",
             "schema": "string"
+        },
+        {
+            "@type": "Component",
+            "name" : "deviceInfo",
+            "schema" : "dtmi:azure:DeviceManagement:DeviceInformation;1"
         }
     ]
- }
+}
   </textarea>
-  <div id="out"></div>
+  <div id="out">
+      .. loading parser ..
+  </div>
   <script type='module' src="./main.js"></script>
+  <style>
+      #out {
+          border: 1px solid grey;
+          width: 600px;
+          padding: 3px;
+          font-size: 12pt;
+          font-family: Courier New, Courier, monospace
+      }
+  </style>
 </body>
 </html>

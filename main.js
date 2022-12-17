@@ -8,32 +8,16 @@ const { setModuleImports, getAssemblyExports, getConfig } = await dotnet
     .withApplicationArgumentsFromQuery()
     .create();
 
-const config = getConfig();
-const exports = await getAssemblyExports(config.mainAssemblyName);
+const config = getConfig()
+const exports = await getAssemblyExports(config.mainAssemblyName)
 
 await dotnet.run();
 
-let lastJsonErr = ''
-const isValidJson = s => {
-    let res = false
-    try {
-        JSON.parse(s)
-        res = true
-    } catch (err) {
-        console.log(err)
-        lastJsonErr = err.message
-    }
-    return res
-}
+;(async () => {
+    const out = document.getElementById('out')
+    const el = document.getElementById('dtdl-text')
 
-const out = document.getElementById('out')
-const el = document.getElementById('dtdl-text')
-el.onkeyup = async () => {
-    if (isValidJson(el.value)) {
-        //out.innerText = el.value.length
-        const res = await exports.MyClass.ParseDTDL(el.value)
-        out.innerText = res
-    } else {
-        out.innerText = lastJsonErr
-    }
-}
+    const validate = async () => out.innerText = await exports.MyClass.ParseDTDL(el.value)
+    el.onkeyup = validate
+    await validate()
+})()

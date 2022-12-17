@@ -1,8 +1,9 @@
-using Microsoft.Azure.DigitalTwins.Parser;
+using DTDLParser;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Tasks;
+using wb;
 
 Console.WriteLine("Hello, Browser!");
 
@@ -12,7 +13,10 @@ public partial class MyClass
     internal static async Task<string> ParseDTDL(string dtdl)
     {
         string res = string.Empty;
-        ModelParser parser = new();
+        ModelParser parser = new()
+        {
+            DtmiResolverAsync = DmrClient.DtmiResolverAsync
+        };
         try
         {
             var parseResult = await parser.ParseAsync(new string[] { dtdl });
@@ -24,7 +28,7 @@ public partial class MyClass
         }
         catch (ParsingException ex)
         {
-            res = "DTDL model is invalid: \n";
+            res = "DTDL model is invalid: \n\n";
             foreach (ParsingError err in ex.Errors)
             {
                 res += err + "\n";
@@ -32,7 +36,7 @@ public partial class MyClass
         }
         catch (Exception ex)
         {
-            res = $"DTDL model is invalid: {ex.Message}\n";
+            res = $"DTDL model is invalid: \n\n {ex.Message}\n";
         }
         return res;
     }
