@@ -8,18 +8,16 @@ const { setModuleImports, getAssemblyExports, getConfig } = await dotnet
     .withApplicationArgumentsFromQuery()
     .create();
 
-const config = getConfig();
-const exports = await getAssemblyExports(config.mainAssemblyName);
+const config = getConfig()
+const exports = await getAssemblyExports(config.mainAssemblyName)
 
 await dotnet.run();
 
-const out = document.getElementById('out')
-const el = document.getElementById('dtdl-text')
+;(async () => {
+    const out = document.getElementById('out')
+    const el = document.getElementById('dtdl-text')
 
-const validate = async () => out.innerText = await exports.MyClass.ParseDTDL(el.value)
-
-el.onkeyup = validate
-(async () => {
-    console.log('window load')
+    const validate = async () => out.innerText = await exports.MyClass.ParseDTDL(el.value)
+    el.onkeyup = validate
     await validate()
 })()

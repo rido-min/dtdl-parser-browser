@@ -28,7 +28,7 @@ public partial class MyClass
         }
         catch (ParsingException ex)
         {
-            res = "DTDL model is invalid: \n";
+            res = "DTDL model is invalid: \n\n";
             foreach (ParsingError err in ex.Errors)
             {
                 res += err + "\n";
@@ -36,7 +36,7 @@ public partial class MyClass
         }
         catch (Exception ex)
         {
-            res = $"DTDL model is invalid: {ex.Message}\n";
+            res = $"DTDL model is invalid: \n\n {ex.Message}\n";
         }
         return res;
     }
