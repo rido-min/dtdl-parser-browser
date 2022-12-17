@@ -13,8 +13,8 @@
 
 <body>
 <h1>DTDL parser in the browser</h1>
-<textarea id="dtdl-text" cols="50" rows="15">
- {
+<textarea id="dtdl-text" cols="60" rows="20" spellcheck="false">
+{
     "@context": "dtmi:dtdl:context;2",
     "@id": "dtmi:com:example;1",
     "@type": "Interface",
@@ -23,9 +23,14 @@
             "@type": "Property",
             "name": "myName",
             "schema": "string"
+        },
+        {
+            "@type": "Component",
+            "name" : "deviceInfo",
+            "schema" : "dtmi:azure:DeviceManagement:DeviceInformation;1"
         }
     ]
- }
+}
   </textarea>
   <div id="out"></div>
   <script type='module' src="./main.js"></script>

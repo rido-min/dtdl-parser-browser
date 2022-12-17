@@ -1,8 +1,9 @@
-using Microsoft.Azure.DigitalTwins.Parser;
+using DTDLParser;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Tasks;
+using wb;
 
 Console.WriteLine("Hello, Browser!");
 
@@ -12,7 +13,10 @@ public partial class MyClass
     internal static async Task<string> ParseDTDL(string dtdl)
     {
         string res = string.Empty;
-        ModelParser parser = new();
+        ModelParser parser = new()
+        {
+            DtmiResolverAsync = DmrClient.DtmiResolverAsync
+        };
         try
         {
             var parseResult = await parser.ParseAsync(new string[] { dtdl });
