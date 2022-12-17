@@ -31,7 +31,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
       with:
-        path: 'dtdl-parser-browser/bin/Release/net7.0/browser-wasm/AppBundle/'
+        path: 'bin/Release/net7.0/browser-wasm/AppBundle/'
 
     - name: Deploy to GitHub Pages
       id: deployment
