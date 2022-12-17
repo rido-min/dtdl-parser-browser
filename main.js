@@ -13,27 +13,13 @@ const exports = await getAssemblyExports(config.mainAssemblyName);
 
 await dotnet.run();
 
-let lastJsonErr = ''
-const isValidJson = s => {
-    let res = false
-    try {
-        JSON.parse(s)
-        res = true
-    } catch (err) {
-        console.log(err)
-        lastJsonErr = err.message
-    }
-    return res
-}
-
 const out = document.getElementById('out')
 const el = document.getElementById('dtdl-text')
-el.onkeyup = async () => {
-    if (isValidJson(el.value)) {
-        //out.innerText = el.value.length
-        const res = await exports.MyClass.ParseDTDL(el.value)
-        out.innerText = res
-    } else {
-        out.innerText = lastJsonErr
-    }
-}
+
+const validate = async () => out.innerText = await exports.MyClass.ParseDTDL(el.value)
+
+el.onkeyup = validate
+(async () => {
+    console.log('window load')
+    await validate()
+})()
