@@ -8,6 +8,8 @@ namespace wb;
 
 internal class DmrClient
 {
+    static Dictionary<string,string> modelDefinitions = new();
+
     static Task<string> ResolveDtmiAsync(string dtmi, string dmrBasePath = "https://devicemodels.azure.com") =>
        new HttpClient().GetStringAsync($"{dmrBasePath}/{dtmi.Replace(':', '/').Replace(';', '-').ToLowerInvariant()}.json");
 
@@ -15,13 +17,17 @@ internal class DmrClient
 
     internal static async Task<IEnumerable<string>> DtmiResolverAsync(IReadOnlyCollection<Dtmi> dtmis)
     {
-        List<string> modelDefinitions = new();
         IEnumerable<string> dtmiStrings = dtmis.Select(s => s.AbsoluteUri);
+        List<string> models = new();
         foreach (var dtmi in dtmiStrings)
         {
-            var content = await ResolveDtmiAsync(dtmi);
-            modelDefinitions.Add(content);
+            if (!modelDefinitions.ContainsKey(dtmi))
+            {
+                var content = await ResolveDtmiAsync(dtmi);
+                modelDefinitions.Add(dtmi,content);
+            }
+            models.Add(modelDefinitions[dtmi]);
         }
-        return modelDefinitions;
+        return models;
     }
 }
